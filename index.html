@@ -5,9 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>快樂芒果｜陪伴孩子學習萬用版</title>
 
+  <!-- ✅ PWA: manifest + icons（你說 icon 放根目錄） -->
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icon-192.png" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
+
+  <!-- iOS PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="快樂芒果" />
+
+  <!-- Theme -->
   <meta name="theme-color" content="#f59e0b" />
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -221,7 +229,7 @@
         </div>
       </section>
 
-      <!-- Treaty 區塊（完整五條） -->
+      <!-- Treaty -->
       <section id="page-treaty" class="mango-gradient p-7 rounded-[2.5rem] text-white shadow-2xl">
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0">
@@ -241,8 +249,6 @@
 
         <div class="mt-5 space-y-3">
 
-          <!-- ✅ 條款標籤：統一防斷字（重點） -->
-          <!-- label class：whitespace-nowrap + inline-flex + min-w -->
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
               <span class="bg-white/25 px-3 py-1 rounded-lg text-[10px] font-black whitespace-nowrap inline-flex items-center justify-center min-w-[56px]">第一條</span>
@@ -296,7 +302,6 @@
 
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
-              <!-- ✅ 第四條：不斷字 -->
               <span class="bg-white/25 px-3 py-1 rounded-lg text-[10px] font-black whitespace-nowrap inline-flex items-center justify-center min-w-[56px]">第四條</span>
               用「說清楚」代替「催促」
             </p>
@@ -509,7 +514,6 @@
     $("#chipChild").addEventListener("click", ()=> setView("child"));
     $("#chipAdult").addEventListener("click", ()=> setView("adult"));
 
-    // 一鍵複製：依目前視角複製「全部五條」
     $("#btnCopyTreaty")?.addEventListener("click", ()=>{
       const view = document.body.getAttribute("data-view") || "child";
 
@@ -534,7 +538,6 @@
       copyText(view==="adult" ? adultText : childText);
     });
 
-    // SOS
     let currentStep = 0;
     const steps = [
       "停——音量降一半。",
@@ -561,7 +564,6 @@
       else{ showPage("home"); }
     });
 
-    // Delegation
     document.addEventListener("click", (e)=>{
       const pageBtn = e.target.closest("[data-page]");
       if(pageBtn){ showPage(pageBtn.getAttribute("data-page")); return; }
@@ -571,5 +573,15 @@
 
     showPage("home");
   </script>
+
+  <!-- ✅ PWA: 註冊 service worker（必須） -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(()=>{});
+      });
+    }
+  </script>
+
 </body>
 </html>

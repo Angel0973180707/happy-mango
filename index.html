@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>快樂芒果｜陪伴孩子學習萬用版</title>
+
+  <!-- PWA Meta -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="快樂芒果" />
+  <meta name="theme-color" content="#f59e0b" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+    :root{
+      --indigo:#312e81;
+      --orange:#f59e0b;
+      --orange2:#fbbf24;
+      --blue:#1d4ed8;
+      --bg:#fffbeb;
+
+      /* ===== 主色（按鈕/強調）可切換：orange / blue ===== */
+      --accent: var(--orange);
+      --accent2: var(--orange2);
+      --accentText:#ffffff;
+    }
+    body{
+      font-family:'Noto Sans TC',sans-serif;
+      background:var(--bg);
+      -webkit-tap-highlight-color:transparent;
+      color:var(--indigo);
+    }
+    .mango-gradient{ background:linear-gradient(135deg,var(--accent2) 0%,var(--accent) 100%); }
+    .glass-card{ background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border:1px solid rgba(251,191,36,.18); }
+    .tab-active{ color:var(--accent); border-bottom:3px solid var(--accent); }
+    .page-content{ display:none; }
+    .page-content.active{ display:block; }
+    .fade-in{ animation:fadeIn .35s ease-out forwards; }
+    @keyframes fadeIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+    ::-webkit-scrollbar{ width:4px; }
+    ::-webkit-scrollbar-thumb{ background:#fde68a; border-radius:10px; }
+
+    /* View toggle */
+    .view-chip{
+      border:1px solid rgba(255,255,255,.45);
+      background:rgba(255,255,255,.18);
+      color:#fff;
+    }
+    .view-chip.active{
+      background:#fff;
+      color:var(--accent);
+      border:1px solid #fff;
+    }
+    .child-view{ display:block; }
+    .adult-view{ display:none; }
+    body[data-view="adult"] .child-view{ display:none; }
+    body[data-view="adult"] .adult-view{ display:block; }
+
+    /* ===== 橘底白字 / 藍底白字：統一用 accent ===== */
+    .btn-accent{
+      background: var(--accent);
+      color: var(--accentText);
+    }
+    .btn-accent:active{ transform:scale(.97); }
+
+    /* SOS卡的左邊線條色 */
+    .sos-border{ border-left-color: var(--accent); }
+
+    @media (prefers-reduced-motion: reduce){
+      .fade-in{ animation:none !important; }
+      *{ scroll-behavior:auto !important; }
+    }
+  </style>
+</head>
+
+<body class="pb-24" data-view="child">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md px-4 py-3 flex items-center justify-between shadow-sm">
+    <div class="flex items-center space-x-2">
+      <div class="w-10 h-10 mango-gradient rounded-xl flex items-center justify-center text-white text-xl shadow-lg" aria-hidden="true">
+        <i class="fas fa-hand-holding-heart"></i>
+      </div>
+      <div>
+        <h1 class="text-lg font-black tracking-tight text-indigo-900">快樂芒果</h1>
+        <p class="text-[9px] text-orange-500 font-black uppercase tracking-tighter">陪伴孩子學習｜萬用版</p>
+      </div>
+    </div>
+
+    <!-- ✅ 情緒急救 -> 情緒消防車 + 橘/藍底白字 -->
+    <button data-page="sos" class="btn-accent px-4 py-2 rounded-full shadow-lg flex items-center space-x-1 transition-all" aria-label="啟動情緒消防車">
+      <i class="fas fa-truck-medical text-xs" aria-hidden="true"></i>
+      <span class="text-[11px] font-black">情緒消防車</span>
+    </button>
+  </header>
+
+  <main class="max-w-md mx-auto p-5">
+
+    <!-- HOME -->
+    <div id="page-home" class="page-content active space-y-7">
+
+      <!-- 0) 先問兩句 -->
+      <section class="space-y-3">
+        <div class="flex items-center space-x-2 px-1">
+          <div class="bg-indigo-600 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
+          <h2 class="text-md font-bold text-indigo-900">先問兩句｜把心站穩</h2>
+        </div>
+
+        <div class="bg-white p-6 rounded-[2rem] border-2 border-indigo-100 shadow-sm">
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-lg shrink-0" aria-hidden="true">
+              <i class="fas fa-question"></i>
+            </div>
+            <div class="space-y-3">
+              <p class="text-[12px] text-indigo-800 font-black leading-relaxed">
+                當孩子學不會時，您的憤怒是來自於孩子的表現，還是來自於您對「失敗」的焦慮？
+              </p>
+              <p class="text-[12px] text-indigo-800 font-black leading-relaxed">
+                我們想要孩子學會的是「知識內容」，還是面對困難時「恐懼的反應」？
+              </p>
+
+              <!-- ✅ 精簡：拿掉「貼文/留言置頂方便」 -->
+              <button class="mt-1 text-indigo-700 font-black underline text-xs"
+                      data-copy="當孩子學不會時，您的憤怒是來自於孩子的表現，還是來自於您對「失敗」的焦慮？\n我們想要孩子學會的是「知識內容」，還是面對困難時「恐懼的反應」？">
+                一鍵複製
+              </button>
+            </div>
+          </div>
+
+          <!-- 我今天只做一件事 -->
+          <div class="mt-5 p-4 bg-orange-50/60 rounded-2xl border border-orange-100">
+            <div class="flex items-center justify-between gap-2">
+              <p class="text-[12px] font-black text-orange-700">我今天只做一件事：</p>
+              <span class="text-[10px] font-black text-indigo-700 bg-white/70 px-2 py-1 rounded-full border border-orange-100">
+                點一下就複製
+              </span>
+            </div>
+
+            <div class="mt-3 grid grid-cols-3 gap-2">
+              <button class="bg-white border border-orange-200 text-orange-700 py-3 rounded-2xl font-black text-[11px] shadow-sm active:scale-95 transition"
+                      data-copy="好，我先把音量降一半。我們慢慢來。">
+                先降音量
+              </button>
+
+              <button class="bg-white border border-orange-200 text-orange-700 py-3 rounded-2xl font-black text-[11px] shadow-sm active:scale-95 transition"
+                      data-copy="先不急，我們先呼吸三次：吸四、停二、吐六。">
+                先呼吸
+              </button>
+
+              <button class="bg-white border border-orange-200 text-orange-700 py-3 rounded-2xl font-black text-[11px] shadow-sm active:scale-95 transition"
+                      data-copy="我們把任務切小：你先說『一個音』就好，說完我跟你擊掌。">
+                先切小
+              </button>
+            </div>
+
+            <p class="mt-3 text-[11px] text-indigo-700 font-medium leading-relaxed">
+              先救「恐懼反應」，再救「知識內容」。今天只做一件事，也算贏。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 1) 說明框（更精簡） -->
+      <section class="space-y-4">
+        <div class="flex items-center space-x-2 px-1">
+          <div class="bg-yellow-400 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
+          <h2 class="text-md font-bold text-indigo-900">說明框｜陪伴孩子學習萬用版</h2>
+        </div>
+
+        <div class="glass-card p-6 rounded-[2rem] shadow-xl border-orange-100">
+          <p class="text-[12px] text-indigo-700 font-black mb-2">哈囉，我是小天使笑長。</p>
+
+          <!-- ✅ 文字說明再精簡 -->
+          <p class="text-[12px] text-indigo-700 leading-relaxed font-medium">
+            孩子卡住時，先把關係抱回來、把大腦拉回線。
+            再把學習拆成一小步一小步。
+            <span class="font-black">你只要回到陪伴，就很好。</span>
+          </p>
+
+          <div class="mt-5 grid grid-cols-3 gap-2">
+            <button data-page="sos" class="btn-accent py-3 rounded-2xl font-black text-[11px] shadow-md transition">
+              90秒消防車
+            </button>
+            <button data-page="dojo" class="bg-indigo-900 text-white py-3 rounded-2xl font-black text-[11px] shadow-md active:scale-95 transition">
+              看說玩用
+            </button>
+            <button data-page="treaty" class="bg-white border border-orange-200 text-orange-600 py-3 rounded-2xl font-black text-[11px] shadow-sm active:scale-95 transition">
+              和平條約
+            </button>
+          </div>
+
+          <div class="mt-4 p-4 bg-orange-50/60 rounded-2xl border border-orange-100">
+            <p class="text-[11px] font-black text-orange-700 mb-1">笑長一句話：</p>
+            <p class="text-[12px] text-indigo-700 font-medium leading-relaxed">
+              先顧好關係，學習自然會來。在困難裡不孤單，比學得快更重要。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2) 三句陪伴話 -->
+      <section class="space-y-3">
+        <div class="flex items-center space-x-2 px-1">
+          <div class="bg-indigo-600 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
+          <h2 class="text-md font-bold text-indigo-900">三句就夠｜先救回連結</h2>
+        </div>
+
+        <div class="glass-card p-5 rounded-[2rem] shadow-lg">
+          <div class="space-y-3">
+            <button class="w-full text-left p-4 rounded-2xl bg-white border border-indigo-50 shadow-sm active:scale-[0.99] transition"
+                    data-copy="好，我先停一下。我的音量降一半。">
+              <p class="text-[12px] font-black text-indigo-900">① 停</p>
+              <p class="text-[12px] text-indigo-700 font-medium mt-1">「好，我先停一下。我的音量降一半。」</p>
+              <p class="text-[10px] text-orange-600 font-black mt-2">點我複製</p>
+            </button>
+
+            <button class="w-full text-left p-4 rounded-2xl bg-white border border-indigo-50 shadow-sm active:scale-[0.99] transition"
+                    data-copy="你卡住了，我在。先不用急，我們慢慢來。">
+              <p class="text-[12px] font-black text-indigo-900">② 連結</p>
+              <p class="text-[12px] text-indigo-700 font-medium mt-1">「你卡住了，我在。先不用急，我們慢慢來。」</p>
+              <p class="text-[10px] text-orange-600 font-black mt-2">點我複製</p>
+            </button>
+
+            <button class="w-full text-left p-4 rounded-2xl bg-white border border-indigo-50 shadow-sm active:scale-[0.99] transition"
+                    data-copy="我們切小：你先說一個音就好，說完我跟你擊掌。">
+              <p class="text-[12px] font-black text-indigo-900">③ 小步</p>
+              <p class="text-[12px] text-indigo-700 font-medium mt-1">「我們切小：你先說一個音就好，說完我跟你擊掌。」</p>
+              <p class="text-[10px] text-orange-600 font-black mt-2">點我複製</p>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3) Treaty -->
+      <section id="page-treaty" class="mango-gradient p-7 rounded-[2.5rem] text-white shadow-2xl">
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <h3 class="text-xl font-black tracking-tight">芒果和平條約</h3>
+            <p class="text-[11px] font-bold opacity-95 mt-1">陪伴孩子學習｜萬用版</p>
+          </div>
+
+          <div class="flex gap-2">
+            <button id="chipChild" class="view-chip active px-3 py-2 rounded-full text-[10px] font-black active:scale-95 transition" aria-label="切換到孩子版">
+              🧒 孩子
+            </button>
+            <button id="chipAdult" class="view-chip px-3 py-2 rounded-full text-[10px] font-black active:scale-95 transition" aria-label="切換到大人版">
+              👩‍👧 大人
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-5 space-y-3">
+          <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
+            <p class="text-[12px] font-black flex items-center gap-2">
+              <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第一條</span>
+              先連結，再學習
+            </p>
+            <div class="child-view mt-2">
+              <p class="text-[13px] font-black">我們握握手，大手牽小手</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">有人陪，我就比較不怕。牽著手，我們再一起試。</p>
+            </div>
+            <div class="adult-view mt-2">
+              <p class="text-[12px] font-black opacity-95">大人心裡懂：</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">
+                牽手、輕抱、靠近，是先把安全感放回來。安全感回來了，孩子才有空間學。
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
+            <p class="text-[12px] font-black flex items-center gap-2">
+              <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第二條</span>
+              情緒先過，內容再來
+            </p>
+            <div class="child-view mt-2">
+              <p class="text-[13px] font-black">卡住的時候，我們一起呼吸三次</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">吸氣、停一下、吐氣。慢慢來，沒關係。</p>
+            </div>
+            <div class="adult-view mt-2">
+              <p class="text-[12px] font-black opacity-95">大人心裡懂：</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">
+                情緒高張時，先穩身體比講道理更有效。呼吸能把孩子從警報模式拉回來。
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
+            <p class="text-[12px] font-black flex items-center gap-2">
+              <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第三條</span>
+              任務縮小，成功放大
+            </p>
+            <div class="child-view mt-2">
+              <p class="text-[13px] font-black">一次做一點點就好</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">我願意試，就是很棒的事。</p>
+            </div>
+            <div class="adult-view mt-2">
+              <p class="text-[12px] font-black opacity-95">大人心裡懂：</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">
+                拆小任務，累積「我做得到」。小成功會把動機與記憶慢慢接回來。
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
+            <p class="text-[12px] font-black flex items-center gap-2">
+              <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第四條</span>
+              關係不破，學習可續
+            </p>
+            <div class="child-view mt-2">
+              <p class="text-[13px] font-black">我們不打人，也不罵自己</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">不會的時候，我們一起想辦法。</p>
+            </div>
+            <div class="adult-view mt-2">
+              <p class="text-[12px] font-black opacity-95">大人心裡懂：</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">
+                孩子會模仿我們面對困難的方式。不用暴力與羞辱，孩子才會學會善待自己。
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-2 text-[12px] font-black">
+            先顧好關係，學習自然會來。<br />
+            在困難裡不孤單，比學得快更重要。
+          </div>
+
+          <button id="btnCopyTreaty" class="w-full mt-4 bg-white text-orange-700 py-3 rounded-2xl font-black text-sm active:scale-95 transition">
+            一鍵複製條約（目前視角）
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- DOJO -->
+    <div id="page-dojo" class="page-content space-y-6">
+      <div class="flex items-center space-x-2 px-1">
+        <div class="bg-indigo-600 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
+        <h2 class="text-md font-bold text-indigo-900">把學習變簡單｜看・說・玩・用</h2>
+      </div>
+
+      <section class="grid grid-cols-2 gap-3">
+        <button class="glass-card p-4 rounded-[1.8rem] text-left active:scale-[0.99] transition"
+                data-copy="我們先看十秒：說兩個特徵就好。">
+          <div class="w-9 h-9 bg-blue-100 text-blue-500 rounded-xl flex items-center justify-center mb-2" aria-hidden="true">
+            <i class="fas fa-eye text-sm"></i>
+          </div>
+          <p class="font-black text-indigo-900 text-sm">看</p>
+          <p class="text-[10px] text-indigo-600 font-bold mt-1">10秒說兩個特徵</p>
+          <p class="text-[10px] text-orange-600 font-black mt-2">點我複製</p>
+        </button>
+
+        <button class="glass-card p-4 rounded-[1.8rem] text-left active:scale-[0.99] transition"
+                data-copy="我先分解，你跟一個音也算成功。">
+          <div class="w-9 h-9 bg-green-100 text-green-500 rounded-xl flex items-center justify-center mb-2" aria-hidden="true">
+            <i class="fas fa-comment text-sm"></i>
+          </div>
+          <p class="font-black text-indigo-900 text-sm">說</p>
+          <p class="text-[10px] text-indigo-600 font-bold mt-1">一音也算成功</p>
+          <p class="text-[10px] text-orange-600 font-black mt-2">點我複製</p>
+        </button>
+
+        <button class="glass-card p-4 rounded-[1.8rem] text-left active:scale-[0.99] transition"
+                data-copy="我們用玩來換回合：配對、找同色、抽卡都行。">
+          <div class="w-9 h-9 bg-purple-100 text-purple-500 rounded-xl flex items-center justify-center mb-2" aria-hidden="true">
+            <i class="fas fa-gamepad text-sm"></i>
+          </div>
+          <p class="font-black text-indigo-900 text-sm">玩</p>
+          <p class="text-[10px] text-indigo-600 font-bold mt-1">回合變換就降溫</p>
+          <p class="text-[10px] text-orange-600 font-black mt-2">點我複製</p>
+        </button>
+
+        <button class="glass-card p-4 rounded-[1.8rem] text-left active:scale-[0.99] transition"
+                data-copy="最後用生活收尾：摸一摸、聞一聞、走一走，就下課。">
+          <div class="w-9 h-9 bg-orange-100 text-orange-500 rounded-xl flex items-center justify-center mb-2" aria-hidden="true">
+            <i class="fas fa-utensils text-sm"></i>
+          </div>
+          <p class="font-black text-indigo-900 text-sm">用</p>
+          <p class="text-[10px] text-indigo-600 font-bold mt-1">用生活落地</p>
+          <p class="text-[10px] text-orange-600 font-black mt-2">點我複製</p>
+        </button>
+      </section>
+    </div>
+
+    <!-- SOS -->
+    <div id="page-sos" class="page-content space-y-4">
+      <div class="bg-red-50 p-7 rounded-[2.5rem] border-2 border-red-100 shadow-2xl">
+        <div class="flex justify-between items-center mb-6">
+          <!-- ✅ 標題改：情緒消防車 -->
+          <h3 class="font-black text-red-600 flex items-center">
+            <i class="fas fa-truck-medical mr-3 text-xl" aria-hidden="true"></i> 情緒消防車：停看呼名換動
+          </h3>
+          <button data-page="home" class="text-red-300" aria-label="關閉消防車">
+            <i class="fas fa-times-circle text-2xl" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <div class="p-4 bg-white rounded-2xl border border-red-100 mb-4">
+          <p class="text-[12px] text-indigo-700 font-medium leading-relaxed">
+            先把恐懼降下來，學習才回得來。
+          </p>
+        </div>
+
+        <div id="sosSteps" class="space-y-3"></div>
+
+        <button id="sosBtn" class="btn-accent w-full mt-8 py-4 rounded-2xl font-black text-sm shadow-lg transition">
+          好，下一小步
+        </button>
+
+        <button class="w-full mt-3 bg-white border border-red-200 text-red-600 py-3 rounded-2xl font-black text-sm shadow-sm active:scale-95 transition"
+                data-copy="停——音量降一半。看——看孩子也看自己。呼——吸4停2吐6。名——說出情緒。換——任務切小。動——動一下回線。">
+          一鍵複製口訣
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Tab Bar -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-orange-100 flex justify-around items-center py-4 z-50 rounded-t-[2rem] shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+    <button data-page="home" id="tab-home" class="flex flex-col items-center tab-active transition-all">
+      <i class="fas fa-home text-lg" aria-hidden="true"></i>
+      <span class="text-[10px] font-black mt-1">首頁</span>
+    </button>
+
+    <button data-page="dojo" id="tab-dojo" class="flex flex-col items-center text-indigo-300 transition-all">
+      <i class="fas fa-cubes text-lg" aria-hidden="true"></i>
+      <span class="text-[10px] font-black mt-1">看說玩用</span>
+    </button>
+
+    <button data-page="treaty" id="tab-treaty" class="flex flex-col items-center text-indigo-300 transition-all">
+      <i class="fas fa-handshake text-lg" aria-hidden="true"></i>
+      <span class="text-[10px] font-black mt-1">和平條約</span>
+    </button>
+
+    <!-- ✅ Tab文案：急救 -> 消防車 -->
+    <button data-page="sos" id="tab-sos" class="flex flex-col items-center text-indigo-300 transition-all">
+      <i class="fas fa-truck-medical text-lg" aria-hidden="true"></i>
+      <span class="text-[10px] font-black mt-1">消防車</span>
+    </button>
+  </nav>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed left-1/2 -translate-x-1/2 bottom-24 bg-indigo-900 text-white text-[12px] font-black px-4 py-2 rounded-full shadow-xl hidden z-[200]">
+    已複製
+  </div>
+
+  <script>
+    // ===== 主題切換（可選）：orange / blue =====
+    // 想用藍底白字，把這行改成 setTheme("blue")
+    setTheme("orange");
+
+    function setTheme(mode){
+      const r = document.documentElement.style;
+      if(mode==="blue"){
+        r.setProperty("--accent", "var(--blue)");
+        r.setProperty("--accent2", "#60a5fa"); // 淡藍漸層
+      }else{
+        r.setProperty("--accent", "var(--orange)");
+        r.setProperty("--accent2", "var(--orange2)");
+      }
+    }
+
+    // ===== Helpers =====
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+    const pages = ["home","dojo","treaty","sos"];
+
+    function showPage(pageId){
+      if(!pages.includes(pageId)) return;
+
+      $$(".page-content").forEach(p => p.classList.remove("active"));
+
+      if(pageId==="treaty"){
+        $("#page-home").classList.add("active");
+        setTimeout(()=> {
+          $("#page-treaty").scrollIntoView({behavior:"smooth", block:"start"});
+        }, 50);
+      }else{
+        $("#page-"+pageId).classList.add("active");
+        window.scrollTo({top:0, behavior:"smooth"});
+      }
+
+      // Tabs
+      $$("#tab-home,#tab-dojo,#tab-treaty,#tab-sos").forEach(tab=>{
+        tab.classList.remove("tab-active");
+        tab.classList.add("text-indigo-300");
+      });
+
+      const activeTab = $("#tab-"+pageId);
+      if(activeTab){
+        activeTab.classList.add("tab-active");
+        activeTab.classList.remove("text-indigo-300");
+      }
+
+      if(pageId==="sos") startSOS();
+    }
+
+    // ===== Toast =====
+    let toastTimer = null;
+    function toast(msg="已複製"){
+      const t = $("#toast");
+      t.textContent = msg;
+      t.classList.remove("hidden");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>t.classList.add("hidden"), 1200);
+    }
+
+    // ===== Copy =====
+    async function copyText(text){
+      try{
+        await navigator.clipboard.writeText(text);
+        toast("已複製");
+      }catch(e){
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        toast("已複製");
+      }
+    }
+
+    // ===== View toggle (child/adult) =====
+    function setView(view){
+      document.body.setAttribute("data-view", view);
+      $("#chipChild").classList.toggle("active", view==="child");
+      $("#chipAdult").classList.toggle("active", view==="adult");
+      try{ localStorage.setItem("mango_view", view); }catch(e){}
+    }
+    try{
+      const saved = localStorage.getItem("mango_view");
+      if(saved==="adult" || saved==="child") setView(saved);
+    }catch(e){}
+
+    $("#chipChild").addEventListener("click", ()=> setView("child"));
+    $("#chipAdult").addEventListener("click", ()=> setView("adult"));
+
+    // Copy treaty (current view)
+    $("#btnCopyTreaty").addEventListener("click", ()=>{
+      const view = document.body.getAttribute("data-view") || "child";
+
+      const childText = [
+        "芒果和平條約｜孩子版",
+        "第一條：我們握握手，大手牽小手。",
+        "第二條：卡住的時候，我們一起呼吸三次。",
+        "第三條：一次做一點點就好。",
+        "第四條：我們不打人，也不罵自己。",
+        "一句話：先顧好關係，學習自然會來。"
+      ].join("\n");
+
+      const adultText = [
+        "芒果和平條約｜大人版",
+        "第一條：先連結，再學習（先把安全感放回來）。",
+        "第二條：情緒先過，內容再來（先穩身體）。",
+        "第三條：任務縮小，成功放大（拆小累積我可以）。",
+        "第四條：關係不破，學習可續（不用暴力與羞辱）。",
+        "一句話：先顧好關係，學習自然會來。"
+      ].join("\n");
+
+      copyText(view==="adult" ? adultText : childText);
+    });
+
+    // ===== SOS =====
+    let currentStep = 0;
+    const steps = [
+      "停——音量降一半。",
+      "看——看孩子，也看自己。",
+      "呼——吸4、停2、吐6。",
+      "名——說出情緒：「你卡住了，我在。」",
+      "換——任務切小：先做一小步。",
+      "動——動一下，回到能學習的狀態。"
+    ];
+    function startSOS(){ currentStep = 0; updateSOSUI(); }
+    function updateSOSUI(){
+      const container = $("#sosSteps");
+      container.innerHTML = "";
+      for(let i=0; i<=currentStep; i++){
+        const div = document.createElement("div");
+        div.className = "p-4 bg-white rounded-2xl shadow-sm border-l-4 sos-border text-[13px] font-bold text-indigo-900 fade-in";
+        div.innerHTML = `<span class="text-red-500 mr-2">${i+1}.</span> ${steps[i]}`;
+        container.appendChild(div);
+      }
+      $("#sosBtn").innerText = currentStep === steps.length-1 ? "完成，回到陪伴" : "下一小步";
+    }
+    $("#sosBtn").addEventListener("click", ()=>{
+      if(currentStep < steps.length-1){ currentStep++; updateSOSUI(); }
+      else{ showPage("home"); }
+    });
+
+    // ===== Delegation =====
+    document.addEventListener("click", (e)=>{
+      const pageBtn = e.target.closest("[data-page]");
+      if(pageBtn){
+        showPage(pageBtn.getAttribute("data-page"));
+        return;
+      }
+      const copyBtn = e.target.closest("[data-copy]");
+      if(copyBtn){
+        copyText(copyBtn.getAttribute("data-copy"));
+        return;
+      }
+    });
+
+    // Init
+    showPage("home");
+  </script>
+</body>
+</html>

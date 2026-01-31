@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>快樂芒果｜陪伴孩子快樂學習</title>
+  <title>快樂芒果｜陪伴孩子學習萬用版</title>
 
   <!-- PWA Meta -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -22,12 +22,12 @@
       --bg:#fffbeb;
       --card:#ffffff;
 
-      /* 品牌主色（用在一般強調/漸層） */
+      /* 品牌主色 */
       --accent:#f59e0b;
       --accent2:#fbbf24;
 
-      /* 指定三顆按鈕色 */
-      --fire:#ef4444;      /* 90秒消防車：紅底白字 */
+      /* 指定按鈕色 */
+      --fire:#ef4444;      /* 消防車：紅底白字 */
       --treaty:#f59e0b;    /* 和平條約：橘底白字 */
       --primary:#312e81;   /* 看說玩用：藍底白字 */
     }
@@ -72,7 +72,6 @@
     .btn-fire{ background:var(--fire); color:#fff; }
     .btn-treaty{ background:var(--treaty); color:#fff; }
     .btn-primary{ background:var(--primary); color:#fff; }
-
     .btn-fire:active, .btn-treaty:active, .btn-primary:active{ transform:scale(.97); }
 
     /* SOS卡左邊線 */
@@ -99,8 +98,8 @@
       </div>
     </div>
 
-    <!-- 情緒消防車（Header 仍用橘底白字更溫柔；首頁大按鈕改紅） -->
-    <button data-page="sos" class="px-4 py-2 rounded-full shadow-lg flex items-center space-x-1 transition-all btn-treaty" aria-label="啟動情緒消防車">
+    <!-- ✅ 情緒消防車：紅底白字 -->
+    <button data-page="sos" class="px-4 py-2 rounded-full shadow-lg flex items-center space-x-1 transition-all btn-fire" aria-label="啟動情緒消防車">
       <i class="fas fa-truck-medical text-xs" aria-hidden="true"></i>
       <span class="text-[11px] font-black">情緒消防車</span>
     </button>
@@ -158,7 +157,6 @@
                 先呼吸
               </button>
 
-              <!-- ✅ 切小 -> 切分學習步驟 -->
               <button class="bg-white border border-orange-200 text-orange-700 py-3 rounded-2xl font-black text-[11px] shadow-sm active:scale-95 transition"
                       data-copy="我們切分學習步驟：你先做『一小步』就好，完成我跟你擊掌。">
                 切分步驟
@@ -172,7 +170,7 @@
         </div>
       </section>
 
-      <!-- 1) 說明框（新增：適用年齡/專注時間/用途） -->
+      <!-- 1) 說明框（含：適用年齡/專注時間/用途） -->
       <section class="space-y-4">
         <div class="flex items-center space-x-2 px-1">
           <div class="bg-yellow-400 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
@@ -187,7 +185,6 @@
             <span class="font-black">你只要回到陪伴，就很棒。</span>
           </p>
 
-          <!-- ✅ 新增說明：年齡/專注時間/用途 -->
           <div class="mt-4 p-4 bg-white/70 rounded-2xl border border-orange-100">
             <div class="space-y-2">
               <p class="text-[11px] font-black text-orange-700">
@@ -209,14 +206,12 @@
           </div>
 
           <div class="mt-5 grid grid-cols-3 gap-2">
-            <!-- ✅ 90秒消防車：紅底白字 -->
             <button data-page="sos" class="btn-fire py-3 rounded-2xl font-black text-[11px] shadow-md transition">
               90秒消防車
             </button>
             <button data-page="dojo" class="btn-primary py-3 rounded-2xl font-black text-[11px] shadow-md transition">
               看說玩用
             </button>
-            <!-- ✅ 和平條約：橘底白字 -->
             <button data-page="treaty" class="btn-treaty py-3 rounded-2xl font-black text-[11px] shadow-md transition">
               和平條約
             </button>
@@ -254,7 +249,6 @@
               <p class="text-[10px] text-orange-600 font-black mt-2">點我複製</p>
             </button>
 
-            <!-- ✅ 小步：改詞 -->
             <button class="w-full text-left p-4 rounded-2xl bg-white border border-indigo-50 shadow-sm active:scale-[0.99] transition"
                     data-copy="我們切分學習步驟：你先做一小步就好，完成我跟你擊掌。">
               <p class="text-[12px] font-black text-indigo-900">③ 切分步驟</p>
@@ -265,7 +259,7 @@
         </div>
       </section>
 
-      <!-- 3) Treaty（保留區塊；按鈕顏色不動，這裡是內容區） -->
+      <!-- Treaty -->
       <section id="page-treaty" class="mango-gradient p-7 rounded-[2.5rem] text-white shadow-2xl">
         <div class="flex items-start justify-between gap-3">
           <div>
@@ -403,7 +397,6 @@
           <p class="text-[10px] text-orange-600 font-black mt-2">點我複製</p>
         </button>
 
-        <!-- ✅ 用生活落地 -> 跟生活經驗結合 -->
         <button class="glass-card p-4 rounded-[1.8rem] text-left active:scale-[0.99] transition"
                 data-copy="最後跟生活經驗結合：摸一摸、聞一聞、走一走，就下課。">
           <div class="w-9 h-9 bg-orange-100 text-orange-500 rounded-xl flex items-center justify-center mb-2" aria-hidden="true">
@@ -441,7 +434,7 @@
         </button>
 
         <button class="w-full mt-3 bg-white border border-red-200 text-red-600 py-3 rounded-2xl font-black text-sm shadow-sm active:scale-95 transition"
-                data-copy="停——音量降一半。看——看孩子也看自己。呼——吸4停2吐6。名——說出情緒。切分——切分學習步驟。動——動一下回線。">
+                data-copy="停——音量降一半。看——看看自己和孩子有沒有緊繃。呼——吸4停2吐6。名——幫孩子情緒取名字。切分——切分學習步驟。動——結合身體動作，幫助記憶、學習。">
           一鍵複製口訣
         </button>
       </div>
@@ -583,11 +576,11 @@
     let currentStep = 0;
     const steps = [
       "停——音量降一半。",
-      "看——看孩子，也看自己。",
+      "看——看看自己和孩子有沒有緊繃。",
       "呼——吸4、停2、吐6。",
-      "名——說出情緒：「你卡住了，我在。」",
+      "名——幫孩子情緒取名字（例如：你看起來卡住又著急）。",
       "切分——切分學習步驟：先完成一小步。",
-      "動——動一下，回到能學習的狀態。"
+      "動——結合身體動作，幫助記憶、學習。"
     ];
     function startSOS(){ currentStep = 0; updateSOSUI(); }
     function updateSOSUI(){

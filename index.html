@@ -22,14 +22,13 @@
       --bg:#fffbeb;
       --card:#ffffff;
 
-      /* 品牌主色 */
       --accent:#f59e0b;
       --accent2:#fbbf24;
 
-      /* 指定按鈕色 */
       --fire:#ef4444;      /* 消防車：紅底白字 */
       --treaty:#f59e0b;    /* 和平條約：橘底白字 */
-      --primary:#312e81;   /* 看說玩用：藍底白字 */
+      --primary:#312e81;   /* 主按鈕：藍底白字 */
+      --softBorder: rgba(251,191,36,.18);
     }
 
     body{
@@ -40,7 +39,7 @@
     }
 
     .mango-gradient{ background:linear-gradient(135deg,var(--accent2) 0%,var(--accent) 100%); }
-    .glass-card{ background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border:1px solid rgba(251,191,36,.18); }
+    .glass-card{ background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border:1px solid var(--softBorder); }
 
     .tab-active{ color:var(--accent); border-bottom:3px solid var(--accent); }
     .page-content{ display:none; }
@@ -52,7 +51,6 @@
     ::-webkit-scrollbar{ width:4px; }
     ::-webkit-scrollbar-thumb{ background:#fde68a; border-radius:10px; }
 
-    /* View toggle */
     .view-chip{
       border:1px solid rgba(255,255,255,.45);
       background:rgba(255,255,255,.18);
@@ -68,13 +66,16 @@
     body[data-view="adult"] .child-view{ display:none; }
     body[data-view="adult"] .adult-view{ display:block; }
 
-    /* Buttons */
     .btn-fire{ background:var(--fire); color:#fff; }
     .btn-treaty{ background:var(--treaty); color:#fff; }
     .btn-primary{ background:var(--primary); color:#fff; }
-    .btn-fire:active, .btn-treaty:active, .btn-primary:active{ transform:scale(.97); }
+    .btn-soft{
+      background:#fff;
+      border:1px solid rgba(49,46,129,.12);
+      color:var(--indigo);
+    }
+    .btn-fire:active, .btn-treaty:active, .btn-primary:active, .btn-soft:active{ transform:scale(.97); }
 
-    /* SOS卡左邊線 */
     .sos-border{ border-left-color: var(--fire); }
 
     @media (prefers-reduced-motion: reduce){
@@ -110,7 +111,7 @@
     <!-- HOME -->
     <div id="page-home" class="page-content active space-y-7">
 
-      <!-- 0) 先問兩句 -->
+      <!-- 先問兩句 -->
       <section class="space-y-3">
         <div class="flex items-center space-x-2 px-1">
           <div class="bg-indigo-600 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
@@ -137,7 +138,6 @@
             </div>
           </div>
 
-          <!-- 我今天只做一件事 -->
           <div class="mt-5 p-4 bg-orange-50/60 rounded-2xl border border-orange-100">
             <div class="flex items-center justify-between gap-2">
               <p class="text-[12px] font-black text-orange-700">我今天只做一件事：</p>
@@ -170,7 +170,7 @@
         </div>
       </section>
 
-      <!-- 1) 說明框（含：適用年齡/專注時間/用途） -->
+      <!-- 說明框 -->
       <section class="space-y-4">
         <div class="flex items-center space-x-2 px-1">
           <div class="bg-yellow-400 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
@@ -205,6 +205,22 @@
             </div>
           </div>
 
+          <!-- ✅ 補回：影片 / 回饋單 / 概念館 -->
+          <div class="mt-4 grid grid-cols-3 gap-2">
+            <a class="btn-soft py-3 rounded-2xl font-black text-[11px] shadow-sm text-center"
+               href="https://youtu.be/p1WXzRhoUjg?si=qqEmL_dIDSnvxp45" target="_blank" rel="noopener">
+              <i class="fa-brands fa-youtube mr-1"></i> 看影片
+            </a>
+            <a class="btn-soft py-3 rounded-2xl font-black text-[11px] shadow-sm text-center"
+               href="https://forms.gle/WRy6JLzrUbyj6hoD8" target="_blank" rel="noopener">
+              <i class="fas fa-pen-to-square mr-1"></i> 填回饋單
+            </a>
+            <a class="btn-soft py-3 rounded-2xl font-black text-[11px] shadow-sm text-center"
+               href="https://angel0973180707.github.io/angel-happy-paw/" target="_blank" rel="noopener">
+              <i class="fas fa-house mr-1"></i> 概念館
+            </a>
+          </div>
+
           <div class="mt-5 grid grid-cols-3 gap-2">
             <button data-page="sos" class="btn-fire py-3 rounded-2xl font-black text-[11px] shadow-md transition">
               90秒消防車
@@ -226,7 +242,7 @@
         </div>
       </section>
 
-      <!-- 2) 三句陪伴話 -->
+      <!-- 三句陪伴話 -->
       <section class="space-y-3">
         <div class="flex items-center space-x-2 px-1">
           <div class="bg-indigo-600 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
@@ -259,7 +275,7 @@
         </div>
       </section>
 
-      <!-- Treaty -->
+      <!-- Treaty 區塊（保持原本） -->
       <section id="page-treaty" class="mango-gradient p-7 rounded-[2.5rem] text-white shadow-2xl">
         <div class="flex items-start justify-between gap-3">
           <div>
@@ -437,6 +453,22 @@
                 data-copy="停——音量降一半。看——看看自己和孩子有沒有緊繃。呼——吸4停2吐6。名——幫孩子情緒取名字。切分——切分學習步驟。動——結合身體動作，幫助記憶、學習。">
           一鍵複製口訣
         </button>
+
+        <!-- ✅ SOS頁也放入口（不會找不到） -->
+        <div class="mt-4 grid grid-cols-3 gap-2">
+          <a class="btn-soft py-3 rounded-2xl font-black text-[11px] shadow-sm text-center"
+             href="https://youtu.be/p1WXzRhoUjg?si=qqEmL_dIDSnvxp45" target="_blank" rel="noopener">
+            <i class="fa-brands fa-youtube mr-1"></i> 影片
+          </a>
+          <a class="btn-soft py-3 rounded-2xl font-black text-[11px] shadow-sm text-center"
+             href="https://forms.gle/WRy6JLzrUbyj6hoD8" target="_blank" rel="noopener">
+            <i class="fas fa-pen-to-square mr-1"></i> 回饋
+          </a>
+          <a class="btn-soft py-3 rounded-2xl font-black text-[11px] shadow-sm text-center"
+             href="https://angel0973180707.github.io/angel-happy-paw/" target="_blank" rel="noopener">
+            <i class="fas fa-house mr-1"></i> 概念館
+          </a>
+        </div>
       </div>
     </div>
 
@@ -471,7 +503,6 @@
   </div>
 
   <script>
-    // ===== Helpers =====
     const $ = (sel, root=document) => root.querySelector(sel);
     const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
     const pages = ["home","dojo","treaty","sos"];
@@ -491,7 +522,6 @@
         window.scrollTo({top:0, behavior:"smooth"});
       }
 
-      // Tabs
       $$("#tab-home,#tab-dojo,#tab-treaty,#tab-sos").forEach(tab=>{
         tab.classList.remove("tab-active");
         tab.classList.add("text-indigo-300");
@@ -506,7 +536,6 @@
       if(pageId==="sos") startSOS();
     }
 
-    // ===== Toast =====
     let toastTimer = null;
     function toast(msg="已複製"){
       const t = $("#toast");
@@ -516,7 +545,6 @@
       toastTimer = setTimeout(()=>t.classList.add("hidden"), 1200);
     }
 
-    // ===== Copy =====
     async function copyText(text){
       try{
         await navigator.clipboard.writeText(text);
@@ -532,7 +560,6 @@
       }
     }
 
-    // ===== View toggle (child/adult) =====
     function setView(view){
       document.body.setAttribute("data-view", view);
       $("#chipChild").classList.toggle("active", view==="child");
@@ -547,10 +574,8 @@
     $("#chipChild").addEventListener("click", ()=> setView("child"));
     $("#chipAdult").addEventListener("click", ()=> setView("adult"));
 
-    // Copy treaty (current view)
     $("#btnCopyTreaty").addEventListener("click", ()=>{
       const view = document.body.getAttribute("data-view") || "child";
-
       const childText = [
         "芒果和平條約｜孩子版",
         "第一條：我們握握手，大手牽小手。",
@@ -572,7 +597,7 @@
       copyText(view==="adult" ? adultText : childText);
     });
 
-    // ===== SOS =====
+    // SOS
     let currentStep = 0;
     const steps = [
       "停——音量降一半。",
@@ -599,21 +624,14 @@
       else{ showPage("home"); }
     });
 
-    // ===== Delegation =====
+    // Delegation
     document.addEventListener("click", (e)=>{
       const pageBtn = e.target.closest("[data-page]");
-      if(pageBtn){
-        showPage(pageBtn.getAttribute("data-page"));
-        return;
-      }
+      if(pageBtn){ showPage(pageBtn.getAttribute("data-page")); return; }
       const copyBtn = e.target.closest("[data-copy]");
-      if(copyBtn){
-        copyText(copyBtn.getAttribute("data-copy"));
-        return;
-      }
+      if(copyBtn){ copyText(copyBtn.getAttribute("data-copy")); return; }
     });
 
-    // Init
     showPage("home");
   </script>
 </body>

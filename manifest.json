@@ -1,12 +1,9 @@
 {
-  "name": "快樂芒果｜陪伴孩子拿回專注，樂在學習",
+  "name": "快樂芒果｜陪伴孩子學習萬用版",
   "short_name": "快樂芒果",
-  "description": "卡通快樂芒果，陪伴孩子拿回專注與好心情。",
-  "lang": "zh-TW",
   "start_url": "./?source=pwa",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait-primary",
   "background_color": "#fffbeb",
   "theme_color": "#f59e0b",
   "icons": [
@@ -14,13 +11,13 @@
       "src": "./icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "./icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }

@@ -1,10 +1,7 @@
-/* sw.js — Happy Mango PWA (icons in root) */
+/* sw.js — Happy Mango PWA */
+const CACHE_NAME = "happy-mango-v1.0.0";
 
-const CACHE_VERSION = "happy-mango-v1.0.1";
-const STATIC_CACHE = `${CACHE_VERSION}-static`;
-const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
-
-const PRECACHE_URLS = [
+const CORE_ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
@@ -12,70 +9,50 @@ const PRECACHE_URLS = [
   "./icon-512.png"
 ];
 
-// Install
+// 安裝：先快取核心檔案
 self.addEventListener("install", (event) => {
-  self.skipWaiting();
   event.waitUntil(
-    caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE_URLS))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS))
   );
+  self.skipWaiting();
 });
 
-// Activate
+// 啟用：清掉舊快取
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    (async () => {
-      const keys = await caches.keys();
-      await Promise.all(
-        keys
-          .filter((k) => !k.startsWith(CACHE_VERSION))
-          .map((k) => caches.delete(k))
-      );
-      await self.clients.claim();
-    })()
+    caches.keys().then((keys) =>
+      Promise.all(keys.map((k) => (k !== CACHE_NAME ? caches.delete(k) : null)))
+    )
   );
+  self.clients.claim();
 });
 
-// Helpers
-const isHTML = (req) =>
-  req.mode === "navigate" ||
-  (req.headers.get("accept") || "").includes("text/html");
-
-const sameOrigin = (url) => url.origin === self.location.origin;
-
-// Strategies
-async function networkFirst(request) {
-  const cache = await caches.open(RUNTIME_CACHE);
-  try {
-    const fresh = await fetch(request);
-    if (fresh.ok) cache.put(request, fresh.clone());
-    return fresh;
-  } catch {
-    const cached = await cache.match(request);
-    return cached || caches.match("./index.html");
-  }
-}
-
-async function cacheFirst(request) {
-  const cache = await caches.open(RUNTIME_CACHE);
-  const cached = await cache.match(request);
-  if (cached) return cached;
-
-  const fresh = await fetch(request);
-  if (fresh.ok) cache.put(request, fresh.clone());
-  return fresh;
-}
-
-// Fetch
+// 抓取：同源走 cache-first；其餘（CDN）走網路
 self.addEventListener("fetch", (event) => {
   const req = event.request;
+  const url = new URL(req.url);
+
+  // 只處理 GET
   if (req.method !== "GET") return;
 
-  const url = new URL(req.url);
-  if (!sameOrigin(url)) return;
-
-  if (isHTML(req)) {
-    event.respondWith(networkFirst(req));
-  } else {
-    event.respondWith(cacheFirst(req));
+  // 同源（你的網站檔案）→ cache first
+  if (url.origin === self.location.origin) {
+    event.respondWith(
+      caches.match(req).then((cached) => {
+        if (cached) return cached;
+        return fetch(req)
+          .then((res) => {
+            // 把新抓到的同源檔案也放進快取
+            const copy = res.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+            return res;
+          })
+          .catch(() => caches.match("./index.html"));
+      })
+    );
+    return;
   }
+
+  // 非同源（例如 tailwind/fontawesome CDN）→ network first
+  event.respondWith(fetch(req).catch(() => caches.match("./index.html")));
 });

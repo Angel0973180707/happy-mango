@@ -65,7 +65,7 @@
     body[data-view="adult"] .child-view{ display:none; }
     body[data-view="adult"] .adult-view{ display:block; }
 
-    /* ========= 立體按鈕（你要的重點） ========= */
+    /* ========= 立體按鈕 ========= */
     .btn-3d{
       position:relative;
       border:none;
@@ -101,7 +101,7 @@
     }
     .btn-soft:active{ transform: translateY(2px); box-shadow: 0 6px 14px rgba(0,0,0,.06); }
 
-    /* ========= 斷字處理：不亂斷、必要時縮字 ========= */
+    /* ========= 斷字處理 ========= */
     .nowrap-title{
       white-space: nowrap;
       word-break: keep-all;
@@ -109,7 +109,7 @@
       text-overflow: ellipsis;
     }
     .title-fit{
-      font-size: clamp(18px, 4.7vw, 22px); /* 手機自動縮到一排 */
+      font-size: clamp(18px, 4.7vw, 22px);
       line-height: 1.15;
       letter-spacing: -0.02em;
     }
@@ -132,7 +132,6 @@
       </div>
       <div>
         <h1 class="text-lg font-black tracking-tight text-indigo-900">快樂芒果</h1>
-        <!-- ✅ 副標改成：陪孩子快樂學習 -->
         <p class="text-[10px] text-orange-500 font-black tracking-tight">陪孩子快樂學習</p>
       </div>
     </div>
@@ -184,7 +183,7 @@
             </div>
           </div>
 
-          <!-- 影片 / 回饋 / 概念館（也加立體） -->
+          <!-- 影片 / 回饋 / 概念館 -->
           <div class="mt-4 grid grid-cols-3 gap-2">
             <a class="btn-soft btn-3d py-3 rounded-2xl font-black text-[11px] text-center"
                href="https://youtu.be/p1WXzRhoUjg?si=qqEmL_dIDSnvxp45" target="_blank" rel="noopener">
@@ -200,7 +199,7 @@
             </a>
           </div>
 
-          <!-- 三顆大按鈕：立體 -->
+          <!-- 三顆大按鈕 -->
           <div class="mt-5 grid grid-cols-3 gap-2">
             <button data-page="sos" class="btn-3d btn-fire py-3 rounded-2xl font-black text-[11px]">
               90秒消防車
@@ -222,11 +221,10 @@
         </div>
       </section>
 
-      <!-- Treaty 區塊 -->
+      <!-- Treaty 區塊（完整五條放回來） -->
       <section id="page-treaty" class="mango-gradient p-7 rounded-[2.5rem] text-white shadow-2xl">
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0">
-            <!-- ✅ 斷字處理：縮字成一排 + 不亂斷 -->
             <h3 class="font-black nowrap-title title-fit">芒果和平條約</h3>
             <p class="text-[11px] font-bold opacity-95 mt-1">陪伴孩子學習｜萬用版</p>
           </div>
@@ -242,6 +240,8 @@
         </div>
 
         <div class="mt-5 space-y-3">
+
+          <!-- 第一條 -->
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
               <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第一條</span>
@@ -255,6 +255,78 @@
               <p class="text-[12px] font-black opacity-95">大人心裡懂：</p>
               <p class="text-[12px] font-bold opacity-95 mt-1">
                 牽手、輕抱、靠近，是先把安全感放回來。安全感回來了，孩子才有空間學。
+              </p>
+            </div>
+          </div>
+
+          <!-- 第二條 -->
+          <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
+            <p class="text-[12px] font-black flex items-center gap-2">
+              <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第二條</span>
+              情緒先過，內容再來
+            </p>
+            <div class="child-view mt-2">
+              <p class="text-[13px] font-black">我們先呼吸三次</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">吸氣、停一下、吐氣。慢慢來，我們再回來做題目。</p>
+            </div>
+            <div class="adult-view mt-2">
+              <p class="text-[12px] font-black opacity-95">大人心裡懂：</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">
+                先把情緒降溫，前額葉才回得來；回得來，孩子才聽得進、做得到。
+              </p>
+            </div>
+          </div>
+
+          <!-- 第三條 -->
+          <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
+            <p class="text-[12px] font-black flex items-center gap-2">
+              <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第三條</span>
+              小步就算贏
+            </p>
+            <div class="child-view mt-2">
+              <p class="text-[13px] font-black">先完成一小格就好</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">先做一點點，我們就停下來說：我做到了！</p>
+            </div>
+            <div class="adult-view mt-2">
+              <p class="text-[12px] font-black opacity-95">大人心裡懂：</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">
+                把任務切小、把成功做密，孩子的「我能感」回來，才會願意繼續。
+              </p>
+            </div>
+          </div>
+
+          <!-- 第四條 -->
+          <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
+            <p class="text-[12px] font-black flex items-center gap-2">
+              <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第四條</span>
+              用「說清楚」代替「催很快」
+            </p>
+            <div class="child-view mt-2">
+              <p class="text-[13px] font-black">我只要你做「這一步」</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">不是全部。先這一個，做完就很棒。</p>
+            </div>
+            <div class="adult-view mt-2">
+              <p class="text-[12px] font-black opacity-95">大人心裡懂：</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">
+                說清楚一件事（目標/下一步/停止點），比加速、比催促，更能讓孩子穩定上手。
+              </p>
+            </div>
+          </div>
+
+          <!-- 第五條 -->
+          <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
+            <p class="text-[12px] font-black flex items-center gap-2">
+              <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第五條</span>
+              先回到陪伴，再回到學習
+            </p>
+            <div class="child-view mt-2">
+              <p class="text-[13px] font-black">你不是一個人</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">我在。你願意回來就很勇敢，我們一起慢慢做。</p>
+            </div>
+            <div class="adult-view mt-2">
+              <p class="text-[12px] font-black opacity-95">大人心裡懂：</p>
+              <p class="text-[12px] font-bold opacity-95 mt-1">
+                孩子願意回來，就是關係有連上；關係連上了，學習才有路走。
               </p>
             </div>
           </div>
@@ -439,24 +511,32 @@
     $("#chipChild").addEventListener("click", ()=> setView("child"));
     $("#chipAdult").addEventListener("click", ()=> setView("adult"));
 
+    // ✅ 一鍵複製：依目前視角複製「全部五條」
     $("#btnCopyTreaty")?.addEventListener("click", ()=>{
       const view = document.body.getAttribute("data-view") || "child";
+
       const childText = [
         "芒果和平條約｜孩子版",
-        "第一條：我們握握手，大手牽小手。",
-        "一句話：有人陪，我就比較不怕。牽著手，我們再一起試。"
+        "第一條：我們握握手，大手牽小手。有人陪，我就比較不怕。牽著手，我們再一起試。",
+        "第二條：情緒先過，內容再來。我們先呼吸三次：吸氣、停一下、吐氣。慢慢來，我們再回來做題目。",
+        "第三條：小步就算贏。先完成一小格就好。先做一點點，我們就停下來說：我做到了！",
+        "第四條：用說清楚代替催很快。我只要你做『這一步』，不是全部。先這一個，做完就很棒。",
+        "第五條：先回到陪伴，再回到學習。你不是一個人，我在。你願意回來就很勇敢，我們一起慢慢做。"
       ].join("\n");
 
       const adultText = [
         "芒果和平條約｜大人版",
-        "第一條：先連結，再學習（先把安全感放回來）。",
-        "一句話：先顧好關係，學習自然會來。"
+        "第一條：先連結，再學習。牽手、輕抱、靠近，是先把安全感放回來。安全感回來了，孩子才有空間學。",
+        "第二條：情緒先過，內容再來。先把情緒降溫，前額葉才回得來；回得來，孩子才聽得進、做得到。",
+        "第三條：小步就算贏。把任務切小、把成功做密，孩子的『我能感』回來，才會願意繼續。",
+        "第四條：用說清楚代替催很快。說清楚一件事（目標/下一步/停止點），比加速催促更能讓孩子穩定上手。",
+        "第五條：先回到陪伴，再回到學習。孩子願意回來，就是關係有連上；關係連上了，學習才有路走。"
       ].join("\n");
 
       copyText(view==="adult" ? adultText : childText);
     });
 
-    // SOS（保留原本最小版）
+    // SOS
     let currentStep = 0;
     const steps = [
       "停——音量降一半。",

@@ -152,14 +152,12 @@
       <section class="space-y-4">
         <div class="flex items-center space-x-2 px-1">
           <div class="bg-yellow-400 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
-          <!-- ✅ 1) 標題更正 -->
           <h2 class="text-md font-bold text-indigo-900">陪伴孩子拿回專注，樂在學習</h2>
         </div>
 
         <div class="glass-card p-6 rounded-[2rem] shadow-xl border-orange-100">
           <p class="text-[12px] text-indigo-700 font-black mb-2">哈囉，我是小天使笑長。</p>
 
-          <!-- ✅ 2) 文稿更正 -->
           <p class="text-[12px] text-indigo-700 leading-relaxed font-medium">
             孩子學習卡住時，先把關係抱回來、把大腦拉回線；再把學習拆成一小步一小步，幫助孩子回到專注裡，
             <span class="font-black">你的耐心陪伴，是孩子最大的福氣。</span>
@@ -243,9 +241,11 @@
 
         <div class="mt-5 space-y-3">
 
+          <!-- ✅ 條款標籤：統一防斷字（重點） -->
+          <!-- label class：whitespace-nowrap + inline-flex + min-w -->
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
-              <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第一條</span>
+              <span class="bg-white/25 px-3 py-1 rounded-lg text-[10px] font-black whitespace-nowrap inline-flex items-center justify-center min-w-[56px]">第一條</span>
               先連結，再學習
             </p>
             <div class="child-view mt-2">
@@ -262,7 +262,7 @@
 
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
-              <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第二條</span>
+              <span class="bg-white/25 px-3 py-1 rounded-lg text-[10px] font-black whitespace-nowrap inline-flex items-center justify-center min-w-[56px]">第二條</span>
               情緒先過，內容再來
             </p>
             <div class="child-view mt-2">
@@ -279,7 +279,7 @@
 
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
-              <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第三條</span>
+              <span class="bg-white/25 px-3 py-1 rounded-lg text-[10px] font-black whitespace-nowrap inline-flex items-center justify-center min-w-[56px]">第三條</span>
               小步就算贏
             </p>
             <div class="child-view mt-2">
@@ -296,7 +296,8 @@
 
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
-              <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第四條</span>
+              <!-- ✅ 第四條：不斷字 -->
+              <span class="bg-white/25 px-3 py-1 rounded-lg text-[10px] font-black whitespace-nowrap inline-flex items-center justify-center min-w-[56px]">第四條</span>
               用「說清楚」代替「催促」
             </p>
             <div class="child-view mt-2">
@@ -313,7 +314,7 @@
 
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
-              <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第五條</span>
+              <span class="bg-white/25 px-3 py-1 rounded-lg text-[10px] font-black whitespace-nowrap inline-flex items-center justify-center min-w-[56px]">第五條</span>
               先回到陪伴，再回到學習
             </p>
             <div class="child-view mt-2">
@@ -517,7 +518,7 @@
         "第一條：我們握握手，大手牽小手。有人陪，我就比較不怕。牽著手，我們再一起試。",
         "第二條：情緒先過，內容再來。我們先呼吸三次：吸氣、停一下、吐氣。慢慢來，我們再回來做題目。",
         "第三條：小步就算贏。先完成一小格就好。先做一點點，我們就停下來說：我做到了！",
-        "第四條：用說清楚代替催很快。我只要你做『這一步』，不是全部。先這一個，做完就很棒。",
+        "第四條：用說清楚代替催促。我只要你做『這一步』，不是全部。先這一個，做完就很棒。",
         "第五條：先回到陪伴，再回到學習。你不是一個人，我在。你願意回來就很勇敢，我們一起慢慢做。"
       ].join("\n");
 
@@ -526,7 +527,7 @@
         "第一條：先連結，再學習。牽手、輕抱、靠近，是先把安全感放回來。安全感回來了，孩子才有空間學。",
         "第二條：情緒先過，內容再來。先把情緒降溫，前額葉才回得來；回得來，孩子才聽得進、做得到。",
         "第三條：小步就算贏。把任務切小、把成功做密，孩子的『我能感』回來，才會願意繼續。",
-        "第四條：用說清楚代替催很快。說清楚一件事（目標/下一步/停止點），比加速催促更能讓孩子穩定上手。",
+        "第四條：用說清楚代替催促。說清楚一件事（目標/下一步/停止點），比加速催促更能讓孩子穩定上手。",
         "第五條：先回到陪伴，再回到學習。孩子願意回來，就是關係有連上；關係連上了，學習才有路走。"
       ].join("\n");
 
@@ -541,7 +542,7 @@
       "呼——吸4、停2、吐6。",
       "名——幫孩子情緒取名字（例如：你看起來卡住又著急）。",
       "切分——切分學習步驟：先完成一小步。",
-      "動——結合身體動作，幫助記憶、學習。"
+      "動——結合身體動作，幫助記憶。"
     ];
     function startSOS(){ currentStep = 0; updateSOSUI(); }
     function updateSOSUI(){

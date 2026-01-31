@@ -152,15 +152,17 @@
       <section class="space-y-4">
         <div class="flex items-center space-x-2 px-1">
           <div class="bg-yellow-400 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
-          <h2 class="text-md font-bold text-indigo-900">說明框｜陪伴孩子學習萬用版</h2>
+          <!-- ✅ 1) 標題更正 -->
+          <h2 class="text-md font-bold text-indigo-900">陪伴孩子拿回專注，樂在學習</h2>
         </div>
 
         <div class="glass-card p-6 rounded-[2rem] shadow-xl border-orange-100">
           <p class="text-[12px] text-indigo-700 font-black mb-2">哈囉，我是小天使笑長。</p>
 
+          <!-- ✅ 2) 文稿更正 -->
           <p class="text-[12px] text-indigo-700 leading-relaxed font-medium">
-            孩子卡住時，先把關係抱回來、把大腦拉回線；再把學習拆成一小步一小步。
-            <span class="font-black">你只要回到陪伴，就很棒。</span>
+            孩子學習卡住時，先把關係抱回來、把大腦拉回線；再把學習拆成一小步一小步，幫助孩子回到專注裡，
+            <span class="font-black">你的耐心陪伴，是孩子最大的福氣。</span>
           </p>
 
           <div class="mt-4 p-4 bg-white/70 rounded-2xl border border-orange-100">
@@ -221,7 +223,7 @@
         </div>
       </section>
 
-      <!-- Treaty 區塊（完整五條放回來） -->
+      <!-- Treaty 區塊（完整五條） -->
       <section id="page-treaty" class="mango-gradient p-7 rounded-[2.5rem] text-white shadow-2xl">
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0">
@@ -241,7 +243,6 @@
 
         <div class="mt-5 space-y-3">
 
-          <!-- 第一條 -->
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
               <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第一條</span>
@@ -259,7 +260,6 @@
             </div>
           </div>
 
-          <!-- 第二條 -->
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
               <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第二條</span>
@@ -277,7 +277,6 @@
             </div>
           </div>
 
-          <!-- 第三條 -->
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
               <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第三條</span>
@@ -295,7 +294,6 @@
             </div>
           </div>
 
-          <!-- 第四條 -->
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
               <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第四條</span>
@@ -313,7 +311,6 @@
             </div>
           </div>
 
-          <!-- 第五條 -->
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
               <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第五條</span>
@@ -511,7 +508,7 @@
     $("#chipChild").addEventListener("click", ()=> setView("child"));
     $("#chipAdult").addEventListener("click", ()=> setView("adult"));
 
-    // ✅ 一鍵複製：依目前視角複製「全部五條」
+    // 一鍵複製：依目前視角複製「全部五條」
     $("#btnCopyTreaty")?.addEventListener("click", ()=>{
       const view = document.body.getAttribute("data-view") || "child";
 

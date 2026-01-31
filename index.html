@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>快樂芒果：幸福教養概念館 PWA</title>
+
+  <!-- PWA Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="快樂芒果" />
+  <meta name="theme-color" content="#fbbf24" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+    :root{
+      --indigo: #312e81;
+      --orange: #f59e0b;
+      --orange2: #fbbf24;
+      --bg: #fffbeb;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: var(--bg);
+      -webkit-tap-highlight-color: transparent;
+      color: var(--indigo);
+    }
+
+    .mango-gradient { background: linear-gradient(135deg, var(--orange2) 0%, var(--orange) 100%); }
+    .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(251, 191, 36, 0.2); }
+    .tab-active { color: var(--orange); border-bottom: 3px solid var(--orange); }
+
+    .page-content { display: none; }
+    .page-content.active { display: block; }
+
+    .fade-in { animation: fadeIn 0.35s ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* 滾動條美化 */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: #fde68a; border-radius: 10px; }
+
+    /* 減少暈眩：尊重使用者減少動畫偏好 */
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in { animation: none !important; }
+      * { scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+
+<body class="pb-24">
+  <!-- Header 導覽欄 -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md px-4 py-3 flex items-center justify-between shadow-sm">
+    <div class="flex items-center space-x-2">
+      <div class="w-10 h-10 mango-gradient rounded-xl flex items-center justify-center text-white text-xl shadow-lg" aria-hidden="true">
+        <i class="fas fa-hand-holding-heart"></i>
+      </div>
+      <div>
+        <h1 class="text-lg font-black tracking-tight text-indigo-900">快樂芒果</h1>
+        <p class="text-[9px] text-orange-500 font-black uppercase tracking-tighter">幸福教養概念館</p>
+      </div>
+    </div>
+
+    <button
+      data-page="sos"
+      class="bg-red-500 text-white px-3 py-1.5 rounded-full shadow-lg flex items-center space-x-1 active:scale-90 transition-all"
+      aria-label="啟動情緒急救"
+    >
+      <i class="fas fa-bolt text-xs" aria-hidden="true"></i>
+      <span class="text-[11px] font-black">情緒急救</span>
+    </button>
+  </header>
+
+  <!-- 主內容區 -->
+  <main class="max-w-md mx-auto p-5">
+    <!-- 1. 首頁 -->
+    <div id="page-home" class="page-content active space-y-8">
+      <section class="space-y-4">
+        <div class="flex items-center space-x-2 px-1">
+          <div class="bg-yellow-400 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
+          <h2 class="text-md font-bold text-indigo-900">幸福智多星</h2>
+        </div>
+
+        <div class="glass-card p-5 rounded-[2rem] shadow-xl border-orange-100">
+          <p class="text-xs text-indigo-700 mb-4 font-medium">遇到了什麼困難？笑長陪你找對策：</p>
+
+          <div class="relative">
+            <label class="sr-only" for="queryInput">輸入問題</label>
+            <input
+              type="text"
+              id="queryInput"
+              placeholder="孩子不專心、被打的芒果、控制不住情緒..."
+              autocomplete="off"
+              class="w-full bg-orange-50/50 border-2 border-orange-100 rounded-2xl px-4 py-3.5 focus:outline-none focus:border-orange-400 transition-all text-indigo-900 text-sm font-medium pr-24"
+            />
+
+            <div class="absolute right-1.5 top-1.5 flex gap-2">
+              <button
+                id="btnSearch"
+                class="mango-gradient text-white w-10 h-10 rounded-xl shadow-md flex items-center justify-center active:scale-95 transition"
+                aria-label="搜尋"
+              >
+                <i class="fas fa-search text-sm" aria-hidden="true"></i>
+              </button>
+
+              <button
+                id="btnClear"
+                class="bg-white border border-orange-100 text-orange-600 w-10 h-10 rounded-xl shadow-sm flex items-center justify-center active:scale-95 transition"
+                aria-label="清除"
+                title="清除"
+              >
+                <i class="fas fa-xmark text-sm" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+
+          <div id="mastermindResult" class="mt-4 hidden" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <!-- 四重奏入口 -->
+      <section class="grid grid-cols-2 gap-3">
+        <button data-method="see" class="glass-card p-4 rounded-[1.8rem] text-left active:scale-[0.99] transition">
+          <div class="w-9 h-9 bg-blue-100 text-blue-500 rounded-xl flex items-center justify-center mb-2" aria-hidden="true">
+            <i class="fas fa-eye text-sm"></i>
+          </div>
+          <p class="font-bold text-indigo-900 text-sm">看</p>
+        </button>
+
+        <button data-method="say" class="glass-card p-4 rounded-[1.8rem] text-left active:scale-[0.99] transition">
+          <div class="w-9 h-9 bg-green-100 text-green-500 rounded-xl flex items-center justify-center mb-2" aria-hidden="true">
+            <i class="fas fa-comment text-sm"></i>
+          </div>
+          <p class="font-bold text-indigo-900 text-sm">說</p>
+        </button>
+
+        <button data-method="play" class="glass-card p-4 rounded-[1.8rem] text-left active:scale-[0.99] transition">
+          <div class="w-9 h-9 bg-purple-100 text-purple-500 rounded-xl flex items-center justify-center mb-2" aria-hidden="true">
+            <i class="fas fa-gamepad text-sm"></i>
+          </div>
+          <p class="font-bold text-indigo-900 text-sm">玩</p>
+        </button>
+
+        <button data-method="use" class="glass-card p-4 rounded-[1.8rem] text-left active:scale-[0.99] transition">
+          <div class="w-9 h-9 bg-orange-100 text-orange-500 rounded-xl flex items-center justify-center mb-2" aria-hidden="true">
+            <i class="fas fa-utensils text-sm"></i>
+          </div>
+          <p class="font-bold text-indigo-900 text-sm">用</p>
+        </button>
+      </section>
+
+      <section class="mango-gradient p-7 rounded-[2.5rem] text-white shadow-2xl">
+        <h3 class="text-xl font-black mb-4 tracking-tight">芒果和平條約</h3>
+        <div class="space-y-3 mb-6 text-[12px] font-bold">
+          <p><i class="fas fa-heart mr-2 text-[10px]" aria-hidden="true"></i> 我們不打人，也不打水果。</p>
+          <p><i class="fas fa-cloud mr-2 text-[10px]" aria-hidden="true"></i> 感覺爆炸時，我們一起大呼吸。</p>
+        </div>
+        <button data-page="repair" class="w-full bg-white text-orange-600 py-3 rounded-2xl font-black text-sm active:scale-95 transition">
+          修復剛才的「不小心」
+        </button>
+      </section>
+    </div>
+
+    <!-- 2. 影片分頁 -->
+    <div id="page-video" class="page-content space-y-6">
+      <div class="flex items-center space-x-2 px-1">
+        <div class="bg-indigo-600 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
+        <h2 class="text-md font-bold text-indigo-900">笑長智慧影片館</h2>
+      </div>
+
+      <div class="glass-card overflow-hidden rounded-[2.5rem] shadow-lg border-2 border-orange-50">
+        <div class="aspect-video w-full bg-black">
+          <iframe
+            class="w-full h-full"
+            loading="lazy"
+            src="https://www.youtube.com/embed/p1WXzRhoUjg"
+            title="被打的芒果：90 秒救回專注力"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <div class="p-6 space-y-3">
+          <div class="flex justify-between items-start gap-3">
+            <h3 class="font-black text-indigo-900 text-lg leading-tight">＜被打的芒果＞<br />90 秒救回專注力</h3>
+            <span class="shrink-0 bg-orange-100 text-orange-600 text-[10px] px-2 py-1 rounded-full font-bold italic">腦科學篇</span>
+          </div>
+
+          <p class="text-[12px] text-indigo-700 leading-relaxed font-medium">
+            孩子不是不專心，是前額葉被壓住了。這集由「幸福姑」笑長親自解析「杏仁核警報」如何影響學習，並教您如何用 90 秒完成急救。
+          </p>
+
+          <div class="flex gap-2 pt-2 flex-wrap">
+            <span class="text-[10px] bg-red-50 text-red-500 px-3 py-1 rounded-lg font-bold border border-red-100">不要打芒果</span>
+            <span class="text-[10px] bg-indigo-50 text-indigo-500 px-3 py-1 rounded-lg font-bold border border-indigo-100">教養正能量</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 概念館入口 -->
+      <div class="bg-white p-6 rounded-[2.5rem] border-2 border-indigo-100 text-center space-y-4 shadow-sm">
+        <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto text-3xl" aria-hidden="true">
+          <i class="fas fa-university"></i>
+        </div>
+
+        <h3 class="font-black text-indigo-900">幸福教養概念館</h3>
+        <p class="text-[11px] text-indigo-600 font-medium px-4 leading-relaxed">
+          想看更多笑長的系統化教學嗎？包含心靈感悟與腦神經科學原稿，盡在概念館官網。
+        </p>
+
+        <button
+          id="btnOpenHome"
+          class="w-full bg-indigo-600 text-white py-3.5 rounded-2xl font-black text-sm shadow-md flex items-center justify-center active:scale-95 transition"
+        >
+          <i class="fas fa-external-link-alt mr-2 text-xs" aria-hidden="true"></i> 進入概念館官網
+        </button>
+      </div>
+    </div>
+
+    <!-- 3. 修復與回饋 -->
+    <div id="page-repair" class="page-content space-y-6">
+      <div class="flex items-center space-x-2 px-1">
+        <div class="bg-orange-400 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
+        <h2 class="text-md font-bold text-indigo-900">關係修復與回饋</h2>
+      </div>
+
+      <div class="bg-white p-7 rounded-[2.5rem] border-2 border-orange-100 space-y-5">
+        <h3 class="font-black text-indigo-900 text-center text-lg underline decoration-orange-300 decoration-4 underline-offset-4">
+          修復關係四部曲
+        </h3>
+
+        <div class="space-y-3">
+          <div class="p-3.5 bg-orange-50/50 rounded-2xl border-l-4 border-orange-400">
+            <p class="text-sm font-medium"><span class="font-black text-orange-600">Step 1. 承認：</span>「剛才我太急了，對不起。」</p>
+          </div>
+          <div class="p-3.5 bg-orange-50/50 rounded-2xl border-l-4 border-orange-400">
+            <p class="text-sm font-medium"><span class="font-black text-orange-600">Step 2. 命名：</span>「你剛才很害怕、很難過對嗎？」</p>
+          </div>
+          <div class="p-3.5 bg-orange-50/50 rounded-2xl border-l-4 border-orange-400">
+            <p class="text-sm font-medium"><span class="font-black text-orange-600">Step 3. 保證：</span>「我會保護你，我們不打人。」</p>
+          </div>
+          <div class="p-3.5 bg-orange-50/50 rounded-2xl border-l-4 border-orange-400">
+            <p class="text-sm font-medium"><span class="font-black text-orange-600">Step 4. 重演：</span>「我們呼吸三次，重新開始。」</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google 表單回饋 -->
+      <div class="mango-gradient p-8 rounded-[3rem] text-white text-center space-y-4 shadow-2xl relative overflow-hidden">
+        <div class="absolute -top-4 -right-4 w-24 h-24 bg-white/10 rounded-full" aria-hidden="true"></div>
+        <i class="fas fa-clipboard-check text-4xl" aria-hidden="true"></i>
+
+        <h3 class="font-black text-xl">App 優化回饋表單</h3>
+        <p class="text-[12px] font-bold opacity-90 px-2 leading-relaxed">
+          親愛的家長，您的實踐心得是笑長最珍貴的禮物！請分享您的建議，讓我們一起優化工具。
+        </p>
+
+        <button
+          id="btnOpenForm"
+          class="w-full bg-indigo-900 text-white py-4 rounded-[1.5rem] font-black text-sm shadow-xl active:scale-95 transition-all"
+        >
+          填寫優化工具回饋單
+        </button>
+
+        <p class="text-[10px] opacity-90 font-bold">
+          ※ 記得把 <span class="underline">your_form_id</span> 換成你的 Google 表單連結
+        </p>
+      </div>
+    </div>
+
+    <!-- 4. SOS -->
+    <div id="page-sos" class="page-content space-y-4">
+      <div class="bg-red-50 p-7 rounded-[2.5rem] border-2 border-red-100 shadow-2xl">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="font-black text-red-600 flex items-center">
+            <i class="fas fa-lungs mr-3 text-xl" aria-hidden="true"></i> 情緒急救：停看呼名換動
+          </h3>
+          <button data-page="home" class="text-red-300" aria-label="關閉急救">
+            <i class="fas fa-times-circle text-2xl" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <div id="sosSteps" class="space-y-3"></div>
+
+        <button id="sosBtn" class="w-full mt-8 bg-red-500 text-white py-4 rounded-2xl font-black text-sm shadow-lg active:scale-95 transition">
+          好，下一小步
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer Tab Bar -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-orange-100 flex justify-around items-center py-4 z-50 rounded-t-[2rem] shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+    <button data-page="home" id="tab-home" class="flex flex-col items-center tab-active transition-all">
+      <i class="fas fa-home text-lg" aria-hidden="true"></i>
+      <span class="text-[10px] font-black mt-1">陪伴首頁</span>
+    </button>
+
+    <button data-page="video" id="tab-video" class="flex flex-col items-center text-indigo-300 transition-all">
+      <i class="fas fa-play-circle text-lg" aria-hidden="true"></i>
+      <span class="text-[10px] font-black mt-1">智慧影片</span>
+    </button>
+
+    <button id="tab-concept" class="flex flex-col items-center text-indigo-300 transition-all" aria-label="開啟概念館官網">
+      <i class="fas fa-university text-lg" aria-hidden="true"></i>
+      <span class="text-[10px] font-black mt-1">概念館官網</span>
+    </button>
+
+    <button data-page="repair" id="tab-repair" class="flex flex-col items-center text-indigo-300 transition-all">
+      <i class="fas fa-edit text-lg" aria-hidden="true"></i>
+      <span class="text-[10px] font-black mt-1">回饋優化</span>
+    </button>
+  </nav>
+
+  <!-- Global Modal -->
+  <div id="globalModal" class="fixed inset-0 bg-indigo-900/60 backdrop-blur-md z-[100] hidden items-center justify-center p-6" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="bg-white rounded-[2.5rem] p-8 w-full max-w-sm shadow-2xl fade-in" onclick="event.stopPropagation()">
+      <div id="modalHeader" class="flex justify-between items-start mb-6">
+        <div id="modalIcon" class="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl" aria-hidden="true"></div>
+        <button id="btnCloseModal" class="text-indigo-100" aria-label="關閉提示">
+          <i class="fas fa-times-circle text-2xl" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <h3 id="modalTitle" class="text-2xl font-black text-indigo-900 mb-1 tracking-tight"></h3>
+      <p id="modalSub" class="text-orange-500 text-[12px] font-black mb-5 uppercase tracking-widest"></p>
+      <p id="modalDesc" class="text-indigo-800 text-sm leading-relaxed font-medium mb-10"></p>
+
+      <button id="btnModalOk" class="w-full mango-gradient text-white py-4 rounded-2xl font-black text-sm shadow-lg active:scale-95 transition">
+        好，陪孩子試試
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // ========= 基本設定 =========
+    const LINKS = {
+      concept: "https://angel0973180707.github.io/angel-happy-paw/",
+      form: "https://forms.gle/your_form_id"
+    };
+
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+    const pages = ["home", "video", "repair", "sos"];
+    let currentPage = "home";
+
+    // ========= 導頁（統一管理） =========
+    function showPage(pageId) {
+      if (!pages.includes(pageId)) return;
+
+      // page
+      $$(".page-content").forEach(p => p.classList.remove("active"));
+      $("#page-" + pageId).classList.add("active");
+
+      // tab（concept 沒有 active）
+      $$("#tab-home, #tab-video, #tab-repair").forEach(tab => {
+        tab.classList.remove("tab-active");
+        tab.classList.add("text-indigo-300");
+      });
+
+      const activeTab = $("#tab-" + (pageId === "sos" ? "home" : pageId));
+      if (activeTab) {
+        activeTab.classList.add("tab-active");
+        activeTab.classList.remove("text-indigo-300");
+      }
+
+      currentPage = pageId;
+      if (pageId === "sos") startSOS();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // ========= 幸福智多星（更穩的匹配） =========
+    function normalizeQuery(q) {
+      return (q || "")
+        .toString()
+        .trim()
+        .replace(/\s+/g, " ");
+    }
+
+    function hasAny(text, keywords) {
+      return keywords.some(k => text.includes(k));
+    }
+
+    // 你之後要擴充，只要往這裡加規則即可
+    const mastermindRules = [
+      {
+        id: "mango_focus",
+        keywords: ["芒果", "不專心", "打", "被打", "專注"],
+        render: () => `
+          <div class="bg-red-50 p-5 rounded-2xl border-l-4 border-red-400 fade-in">
+            <p class="text-indigo-900 font-black text-md mb-2 flex items-center">
+              <i class="fas fa-video mr-2 text-red-400" aria-hidden="true"></i> 匹配影片：被打的芒果
+            </p>
+            <p class="text-[12px] text-indigo-700 font-medium mb-4 leading-relaxed">
+              笑長提醒你：孩子這時候很可能是「前額葉拔電」了！強迫只會讓「杏仁核」更緊張。
+              先降溫，再回到任務。
+            </p>
+            <div class="flex space-x-2">
+              <button data-page="video" class="bg-indigo-900 text-white px-4 py-2 rounded-xl text-[11px] font-black shadow-md active:scale-95 transition">立即觀看影片</button>
+              <button data-page="sos" class="bg-red-500 text-white px-4 py-2 rounded-xl text-[11px] font-black shadow-md active:scale-95 transition">啟動 SOS 急救</button>
+            </div>
+          </div>`
+      }
+    ];
+
+    function renderResultHTML(html) {
+      const res = $("#mastermindResult");
+      res.classList.remove("hidden");
+      res.innerHTML = html;
+    }
+
+    function hideResult() {
+      const res = $("#mastermindResult");
+      res.classList.add("hidden");
+      res.innerHTML = "";
+    }
+
+    function happinessMastermind() {
+      const input = normalizeQuery($("#queryInput").value);
+      if (!input) {
+        hideResult();
+        return;
+      }
+
+      // 找第一個符合的規則
+      const matched = mastermindRules.find(rule => hasAny(input, rule.keywords));
+
+      if (matched) {
+        renderResultHTML(matched.render());
+        return;
+      }
+
+      renderResultHTML(`
+        <div class="bg-indigo-50 p-5 rounded-2xl border-l-4 border-indigo-400 fade-in">
+          <p class="text-indigo-900 font-black text-md mb-2 tracking-tight">💡 笑長的智慧引導</p>
+          <p class="text-[12px] text-indigo-700 font-medium mb-3">
+            先試試用「我看到你…」來對齊孩子的狀態（先連結、再引導）。
+            如果你想找更完整的心腦科學與系統課，歡迎去概念館。
+          </p>
+          <button id="btnGoConceptInline" class="text-indigo-600 font-black underline text-xs active:opacity-80">前往幸福教養概念館官網</button>
+        </div>
+      `);
+
+      // 動態綁定（因為剛插入 DOM）
+      const inlineBtn = $("#btnGoConceptInline");
+      if (inlineBtn) inlineBtn.addEventListener("click", () => window.open(LINKS.concept, "_blank"));
+    }
+
+    // ========= SOS 急救 =========
+    let currentStep = 0;
+    const steps = [
+      "停：先停下追問，音量降一半",
+      "看：看看孩子的訊號，也看看自己",
+      "呼：一起呼吸（吸4、停2、吐6）",
+      "名：幫情緒命名，同理孩子",
+      "換：把任務縮小，先試發一個音",
+      "動：擊掌、張大嘴，讓身體動起來"
+    ];
+
+    function startSOS() {
+      currentStep = 0;
+      updateSOSUI();
+    }
+
+    function nextSOSStep() {
+      if (currentStep < steps.length - 1) {
+        currentStep++;
+        updateSOSUI();
+      } else {
+        showPage("home");
+      }
+    }
+
+    function updateSOSUI() {
+      const container = $("#sosSteps");
+      container.innerHTML = "";
+
+      for (let i = 0; i <= currentStep; i++) {
+        const div = document.createElement("div");
+        div.className = "p-4 bg-white rounded-2xl shadow-sm border-l-4 border-red-500 text-[13px] font-bold text-indigo-900 fade-in";
+        div.innerHTML = `<span class="text-red-500 mr-2">${i + 1}.</span> ${steps[i]}`;
+        container.appendChild(div);
+      }
+
+      $("#sosBtn").innerText = currentStep === steps.length - 1 ? "急救完成，找回連結" : "下一小步";
+    }
+
+    // ========= Modal（四重奏） =========
+    const methodMap = {
+      see:  { title: "看", sub: "觀察不評價", desc: "默數十秒，只看孩子特徵。", color: "blue", icon: "fa-eye" },
+      say:  { title: "說", sub: "塑形小步走", desc: "孩子發出一個音，就是巨大進步！", color: "green", icon: "fa-comment" },
+      play: { title: "玩", sub: "回合變換", desc: "五分鐘一回合，卡關就玩遊戲。", color: "purple", icon: "fa-gamepad" },
+      use:  { title: "用", sub: "生活實踐", desc: "去市場聞香氣，連結現實生活。", color: "orange", icon: "fa-utensils" }
+    };
+
+    function openMethod(key) {
+      const data = methodMap[key];
+      if (!data) return;
+
+      const colors = {
+        blue: "bg-blue-100 text-blue-500",
+        green: "bg-green-100 text-green-500",
+        purple: "bg-purple-100 text-purple-500",
+        orange: "bg-orange-100 text-orange-500"
+      };
+
+      $("#modalIcon").className = `w-16 h-16 rounded-2xl flex items-center justify-center text-3xl ${colors[data.color]}`;
+      $("#modalIcon").innerHTML = `<i class="fas ${data.icon}" aria-hidden="true"></i>`;
+      $("#modalTitle").innerText = data.title;
+      $("#modalSub").innerText = data.sub;
+      $("#modalDesc").innerText = data.desc;
+
+      $("#globalModal").classList.remove("hidden");
+      $("#globalModal").classList.add("flex");
+    }
+
+    function closeModal() {
+      $("#globalModal").classList.add("hidden");
+      $("#globalModal").classList.remove("flex");
+    }
+
+    // ========= 初始化 & 事件綁定 =========
+    document.addEventListener("click", (e) => {
+      // data-page 導頁
+      const pageBtn = e.target.closest("[data-page]");
+      if (pageBtn) {
+        const page = pageBtn.getAttribute("data-page");
+        showPage(page);
+        return;
+      }
+
+      // 四重奏
+      const methodBtn = e.target.closest("[data-method]");
+      if (methodBtn) {
+        openMethod(methodBtn.getAttribute("

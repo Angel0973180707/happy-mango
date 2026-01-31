@@ -18,27 +18,34 @@
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
     :root{
       --indigo:#312e81;
-      --orange:#f59e0b;
-      --orange2:#fbbf24;
-      --blue:#1d4ed8;
-      --bg:#fffbeb;
 
-      /* ===== 主色（按鈕/強調）可切換：orange / blue ===== */
-      --accent: var(--orange);
-      --accent2: var(--orange2);
-      --accentText:#ffffff;
+      --bg:#fffbeb;
+      --card:#ffffff;
+
+      /* 品牌主色（用在一般強調/漸層） */
+      --accent:#f59e0b;
+      --accent2:#fbbf24;
+
+      /* 指定三顆按鈕色 */
+      --fire:#ef4444;      /* 90秒消防車：紅底白字 */
+      --treaty:#f59e0b;    /* 和平條約：橘底白字 */
+      --primary:#312e81;   /* 看說玩用：藍底白字 */
     }
+
     body{
       font-family:'Noto Sans TC',sans-serif;
       background:var(--bg);
       -webkit-tap-highlight-color:transparent;
       color:var(--indigo);
     }
+
     .mango-gradient{ background:linear-gradient(135deg,var(--accent2) 0%,var(--accent) 100%); }
     .glass-card{ background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border:1px solid rgba(251,191,36,.18); }
+
     .tab-active{ color:var(--accent); border-bottom:3px solid var(--accent); }
     .page-content{ display:none; }
     .page-content.active{ display:block; }
+
     .fade-in{ animation:fadeIn .35s ease-out forwards; }
     @keyframes fadeIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 
@@ -61,15 +68,15 @@
     body[data-view="adult"] .child-view{ display:none; }
     body[data-view="adult"] .adult-view{ display:block; }
 
-    /* ===== 橘底白字 / 藍底白字：統一用 accent ===== */
-    .btn-accent{
-      background: var(--accent);
-      color: var(--accentText);
-    }
-    .btn-accent:active{ transform:scale(.97); }
+    /* Buttons */
+    .btn-fire{ background:var(--fire); color:#fff; }
+    .btn-treaty{ background:var(--treaty); color:#fff; }
+    .btn-primary{ background:var(--primary); color:#fff; }
 
-    /* SOS卡的左邊線條色 */
-    .sos-border{ border-left-color: var(--accent); }
+    .btn-fire:active, .btn-treaty:active, .btn-primary:active{ transform:scale(.97); }
+
+    /* SOS卡左邊線 */
+    .sos-border{ border-left-color: var(--fire); }
 
     @media (prefers-reduced-motion: reduce){
       .fade-in{ animation:none !important; }
@@ -92,8 +99,8 @@
       </div>
     </div>
 
-    <!-- ✅ 情緒急救 -> 情緒消防車 + 橘/藍底白字 -->
-    <button data-page="sos" class="btn-accent px-4 py-2 rounded-full shadow-lg flex items-center space-x-1 transition-all" aria-label="啟動情緒消防車">
+    <!-- 情緒消防車（Header 仍用橘底白字更溫柔；首頁大按鈕改紅） -->
+    <button data-page="sos" class="px-4 py-2 rounded-full shadow-lg flex items-center space-x-1 transition-all btn-treaty" aria-label="啟動情緒消防車">
       <i class="fas fa-truck-medical text-xs" aria-hidden="true"></i>
       <span class="text-[11px] font-black">情緒消防車</span>
     </button>
@@ -124,7 +131,6 @@
                 我們想要孩子學會的是「知識內容」，還是面對困難時「恐懼的反應」？
               </p>
 
-              <!-- ✅ 精簡：拿掉「貼文/留言置頂方便」 -->
               <button class="mt-1 text-indigo-700 font-black underline text-xs"
                       data-copy="當孩子學不會時，您的憤怒是來自於孩子的表現，還是來自於您對「失敗」的焦慮？\n我們想要孩子學會的是「知識內容」，還是面對困難時「恐懼的反應」？">
                 一鍵複製
@@ -152,9 +158,10 @@
                 先呼吸
               </button>
 
+              <!-- ✅ 切小 -> 切分學習步驟 -->
               <button class="bg-white border border-orange-200 text-orange-700 py-3 rounded-2xl font-black text-[11px] shadow-sm active:scale-95 transition"
-                      data-copy="我們把任務切小：你先說『一個音』就好，說完我跟你擊掌。">
-                先切小
+                      data-copy="我們切分學習步驟：你先做『一小步』就好，完成我跟你擊掌。">
+                切分步驟
               </button>
             </div>
 
@@ -165,7 +172,7 @@
         </div>
       </section>
 
-      <!-- 1) 說明框（更精簡） -->
+      <!-- 1) 說明框（新增：適用年齡/專注時間/用途） -->
       <section class="space-y-4">
         <div class="flex items-center space-x-2 px-1">
           <div class="bg-yellow-400 w-1.5 h-5 rounded-full" aria-hidden="true"></div>
@@ -175,21 +182,42 @@
         <div class="glass-card p-6 rounded-[2rem] shadow-xl border-orange-100">
           <p class="text-[12px] text-indigo-700 font-black mb-2">哈囉，我是小天使笑長。</p>
 
-          <!-- ✅ 文字說明再精簡 -->
           <p class="text-[12px] text-indigo-700 leading-relaxed font-medium">
-            孩子卡住時，先把關係抱回來、把大腦拉回線。
-            再把學習拆成一小步一小步。
-            <span class="font-black">你只要回到陪伴，就很好。</span>
+            孩子卡住時，先把關係抱回來、把大腦拉回線；再把學習拆成一小步一小步。
+            <span class="font-black">你只要回到陪伴，就很棒。</span>
           </p>
 
+          <!-- ✅ 新增說明：年齡/專注時間/用途 -->
+          <div class="mt-4 p-4 bg-white/70 rounded-2xl border border-orange-100">
+            <div class="space-y-2">
+              <p class="text-[11px] font-black text-orange-700">
+                適用年齡：<span class="text-indigo-700">學齡前、國小低年級</span>
+              </p>
+              <p class="text-[11px] font-black text-orange-700">
+                專注時間參考：<span class="text-indigo-700">年齡 × 2～5 分鐘</span>
+              </p>
+              <p class="text-[11px] text-indigo-700 font-medium leading-relaxed">
+                例：3歲約6～15分、5歲約10～25分、7歲約14～35分（孩子狀態不同，彈性就好）
+              </p>
+              <p class="text-[11px] font-black text-orange-700">
+                用途：
+                <span class="text-indigo-700 font-medium">
+                  建立親子連結、用小步驟引導孩子專注與學習興趣、親子共樂
+                </span>
+              </p>
+            </div>
+          </div>
+
           <div class="mt-5 grid grid-cols-3 gap-2">
-            <button data-page="sos" class="btn-accent py-3 rounded-2xl font-black text-[11px] shadow-md transition">
+            <!-- ✅ 90秒消防車：紅底白字 -->
+            <button data-page="sos" class="btn-fire py-3 rounded-2xl font-black text-[11px] shadow-md transition">
               90秒消防車
             </button>
-            <button data-page="dojo" class="bg-indigo-900 text-white py-3 rounded-2xl font-black text-[11px] shadow-md active:scale-95 transition">
+            <button data-page="dojo" class="btn-primary py-3 rounded-2xl font-black text-[11px] shadow-md transition">
               看說玩用
             </button>
-            <button data-page="treaty" class="bg-white border border-orange-200 text-orange-600 py-3 rounded-2xl font-black text-[11px] shadow-sm active:scale-95 transition">
+            <!-- ✅ 和平條約：橘底白字 -->
+            <button data-page="treaty" class="btn-treaty py-3 rounded-2xl font-black text-[11px] shadow-md transition">
               和平條約
             </button>
           </div>
@@ -226,17 +254,18 @@
               <p class="text-[10px] text-orange-600 font-black mt-2">點我複製</p>
             </button>
 
+            <!-- ✅ 小步：改詞 -->
             <button class="w-full text-left p-4 rounded-2xl bg-white border border-indigo-50 shadow-sm active:scale-[0.99] transition"
-                    data-copy="我們切小：你先說一個音就好，說完我跟你擊掌。">
-              <p class="text-[12px] font-black text-indigo-900">③ 小步</p>
-              <p class="text-[12px] text-indigo-700 font-medium mt-1">「我們切小：你先說一個音就好，說完我跟你擊掌。」</p>
+                    data-copy="我們切分學習步驟：你先做一小步就好，完成我跟你擊掌。">
+              <p class="text-[12px] font-black text-indigo-900">③ 切分步驟</p>
+              <p class="text-[12px] text-indigo-700 font-medium mt-1">「我們切分學習步驟：你先做一小步就好，完成我跟你擊掌。」</p>
               <p class="text-[10px] text-orange-600 font-black mt-2">點我複製</p>
             </button>
           </div>
         </div>
       </section>
 
-      <!-- 3) Treaty -->
+      <!-- 3) Treaty（保留區塊；按鈕顏色不動，這裡是內容區） -->
       <section id="page-treaty" class="mango-gradient p-7 rounded-[2.5rem] text-white shadow-2xl">
         <div class="flex items-start justify-between gap-3">
           <div>
@@ -292,7 +321,7 @@
           <div class="bg-white/15 rounded-2xl p-4 border border-white/20">
             <p class="text-[12px] font-black flex items-center gap-2">
               <span class="bg-white/25 px-2 py-1 rounded-lg text-[10px] font-black">第三條</span>
-              任務縮小，成功放大
+              切分步驟，成功放大
             </p>
             <div class="child-view mt-2">
               <p class="text-[13px] font-black">一次做一點點就好</p>
@@ -301,7 +330,7 @@
             <div class="adult-view mt-2">
               <p class="text-[12px] font-black opacity-95">大人心裡懂：</p>
               <p class="text-[12px] font-bold opacity-95 mt-1">
-                拆小任務，累積「我做得到」。小成功會把動機與記憶慢慢接回來。
+                切分學習步驟，累積「我做得到」。小成功會把動機與記憶慢慢接回來。
               </p>
             </div>
           </div>
@@ -374,13 +403,14 @@
           <p class="text-[10px] text-orange-600 font-black mt-2">點我複製</p>
         </button>
 
+        <!-- ✅ 用生活落地 -> 跟生活經驗結合 -->
         <button class="glass-card p-4 rounded-[1.8rem] text-left active:scale-[0.99] transition"
-                data-copy="最後用生活收尾：摸一摸、聞一聞、走一走，就下課。">
+                data-copy="最後跟生活經驗結合：摸一摸、聞一聞、走一走，就下課。">
           <div class="w-9 h-9 bg-orange-100 text-orange-500 rounded-xl flex items-center justify-center mb-2" aria-hidden="true">
             <i class="fas fa-utensils text-sm"></i>
           </div>
           <p class="font-black text-indigo-900 text-sm">用</p>
-          <p class="text-[10px] text-indigo-600 font-bold mt-1">用生活落地</p>
+          <p class="text-[10px] text-indigo-600 font-bold mt-1">跟生活經驗結合</p>
           <p class="text-[10px] text-orange-600 font-black mt-2">點我複製</p>
         </button>
       </section>
@@ -390,9 +420,8 @@
     <div id="page-sos" class="page-content space-y-4">
       <div class="bg-red-50 p-7 rounded-[2.5rem] border-2 border-red-100 shadow-2xl">
         <div class="flex justify-between items-center mb-6">
-          <!-- ✅ 標題改：情緒消防車 -->
           <h3 class="font-black text-red-600 flex items-center">
-            <i class="fas fa-truck-medical mr-3 text-xl" aria-hidden="true"></i> 情緒消防車：停看呼名換動
+            <i class="fas fa-truck-medical mr-3 text-xl" aria-hidden="true"></i> 情緒消防車：停看呼名切分動
           </h3>
           <button data-page="home" class="text-red-300" aria-label="關閉消防車">
             <i class="fas fa-times-circle text-2xl" aria-hidden="true"></i>
@@ -407,12 +436,12 @@
 
         <div id="sosSteps" class="space-y-3"></div>
 
-        <button id="sosBtn" class="btn-accent w-full mt-8 py-4 rounded-2xl font-black text-sm shadow-lg transition">
+        <button id="sosBtn" class="btn-fire w-full mt-8 py-4 rounded-2xl font-black text-sm shadow-lg transition">
           好，下一小步
         </button>
 
         <button class="w-full mt-3 bg-white border border-red-200 text-red-600 py-3 rounded-2xl font-black text-sm shadow-sm active:scale-95 transition"
-                data-copy="停——音量降一半。看——看孩子也看自己。呼——吸4停2吐6。名——說出情緒。換——任務切小。動——動一下回線。">
+                data-copy="停——音量降一半。看——看孩子也看自己。呼——吸4停2吐6。名——說出情緒。切分——切分學習步驟。動——動一下回線。">
           一鍵複製口訣
         </button>
       </div>
@@ -437,7 +466,6 @@
       <span class="text-[10px] font-black mt-1">和平條約</span>
     </button>
 
-    <!-- ✅ Tab文案：急救 -> 消防車 -->
     <button data-page="sos" id="tab-sos" class="flex flex-col items-center text-indigo-300 transition-all">
       <i class="fas fa-truck-medical text-lg" aria-hidden="true"></i>
       <span class="text-[10px] font-black mt-1">消防車</span>
@@ -450,21 +478,6 @@
   </div>
 
   <script>
-    // ===== 主題切換（可選）：orange / blue =====
-    // 想用藍底白字，把這行改成 setTheme("blue")
-    setTheme("orange");
-
-    function setTheme(mode){
-      const r = document.documentElement.style;
-      if(mode==="blue"){
-        r.setProperty("--accent", "var(--blue)");
-        r.setProperty("--accent2", "#60a5fa"); // 淡藍漸層
-      }else{
-        r.setProperty("--accent", "var(--orange)");
-        r.setProperty("--accent2", "var(--orange2)");
-      }
-    }
-
     // ===== Helpers =====
     const $ = (sel, root=document) => root.querySelector(sel);
     const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
@@ -558,7 +571,7 @@
         "芒果和平條約｜大人版",
         "第一條：先連結，再學習（先把安全感放回來）。",
         "第二條：情緒先過，內容再來（先穩身體）。",
-        "第三條：任務縮小，成功放大（拆小累積我可以）。",
+        "第三條：切分學習步驟，成功放大（拆小累積我可以）。",
         "第四條：關係不破，學習可續（不用暴力與羞辱）。",
         "一句話：先顧好關係，學習自然會來。"
       ].join("\n");
@@ -573,7 +586,7 @@
       "看——看孩子，也看自己。",
       "呼——吸4、停2、吐6。",
       "名——說出情緒：「你卡住了，我在。」",
-      "換——任務切小：先做一小步。",
+      "切分——切分學習步驟：先完成一小步。",
       "動——動一下，回到能學習的狀態。"
     ];
     function startSOS(){ currentStep = 0; updateSOSUI(); }
